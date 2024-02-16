@@ -3,8 +3,8 @@ name: kong-cp
 description: A Helm chart for Kong OSS Control Plane
 type: application
 version: 0.1.0
-appVersion: "2.36.0"
+appVersion: "3.5"
 dependencies:
-- name: kong/kong
+- name: kong
   version: "2.36.0"
   repository: "https://charts.konghq.com"

@@ -1,0 +1,6 @@
+dependencies:
+- name: kong
+  repository: https://charts.konghq.com
+  version: 2.36.0
+digest: sha256:11b1fb5afdc253d43f3025e7b24787dd08dc212e6f1e0713b52228d5a5c3c754
+generated: "2024-02-16T16:40:07.740481+05:30"

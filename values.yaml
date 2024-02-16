@@ -1,41 +1,42 @@
-adminPort: 8001
-clusterPort: 8005
-dbUser: kong
-dbPassword: kong
-
 kong:
+  adminPort: 8001
   image:
-    repository: kong
-    tag: {{ .Chart.AppVersion }}
+    repository: kong/kong
+    tag: "3.5"
     pullPolicy: IfNotPresent
   env:
-    prefix: /kong/
+    pg_host: kongdb-postgresql
+    pg_user: kong
+    pg_password: kong
+    pg_database: kong
     database: postgres
     role: control_plane
-    cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
-    cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
+    cluster_cert: /etc/secrets/kong-cluster-cert-secret/tls.crt
+    cluster_cert_key: /etc/secrets/kong-cluster-cert-secret/tls.key
   admin:
     enabled: true
     http:
       enabled: true
-      servicePort: {{ .Values.adminPort}}
+      servicePort: 8001
       containerPort: 8001
   cluster:
     enabled: true
     tls:
       enabled: true
-      servicePort: {{ .Values.clusterPort}}
+      servicePort: 8005
       containerPort: 8005
   proxy:
     enabled: false
   secretVolumes:
-  - kong-cluster-cert
+  - kong-cluster-cert-secret
 
   postgresql:
-    enabled: true
-    auth:
-      username: {{ .Values.dbUser }}
-      database: {{ .Values.password }}
+    enabled: false
 
   ingressController:
     enabled: false
+
+volumes:
+  - name: kong-cluster-cert-secret
+    secret:
+      secretName: kong-cluster-cert-secret
